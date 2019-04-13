@@ -8,8 +8,9 @@ from docxtpl import DocxTemplate
 import rmb_upper
 import os
 import time
+import json
 
-from decimal import Decimal
+app_title = '小尹办公'
 
 class MyFrame(wx.Frame):
 
@@ -19,16 +20,34 @@ class MyFrame(wx.Frame):
     label_flag = wx.FIXED_MINSIZE | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
     input_flag = wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
 
+    input_data_arr = ['borrower_name1', 'borrower_home1', 'borrower_adress1',
+                 'borrower_id1', 'borrower_phone1', 'borrower_name2',
+                 'borrower_home2', 'borrower_adress2', 'borrower_id2',
+                 'borrower_phone2', 'loan_proportion', 'loan_number_big',
+                 'loan_number_small', 'house_location', 'house_area',
+                 'house_price', 'loan_duration_month', 'start_year',
+                 'start_month', 'start_day', 'end_year',
+                 'end_month', 'end_day', 'standard_rate',
+                 'float_num', 'actual_rate',
+                 'account_name', 'account_num', 'repayment_times',
+                 'repayment_num_big', 'repayment_num_small',
+                 'pawn_num', 'contract_num', 'loan_contract_id',
+                 'contract_id'
+                 ]
 
     def __init__(self, parent, title):
         super(MyFrame, self).__init__(parent, title=title,
             size=(1280, 768))
-        self.label_font = wx.Font(15, wx.DEFAULT, wx.NORMAL, wx.LIGHT)
-        self.input_font = wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.LIGHT)
+        self.label_font = wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.LIGHT)
+        self.button_font = wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.LIGHT)
+        self.input_font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.LIGHT)
 
         self.Centre()
         self.createUI()
-        
+
+    def onClose(self, event):
+        self.timer.Stop()
+        self.Close()
 
     def createUI(self):
 
@@ -200,9 +219,8 @@ class MyFrame(wx.Frame):
 
         rootBox.Add(self.panel, 1, wx.EXPAND | wx.ALL, 20)
 
-        self.btn_generate_template = self.get_button("生成合同", self.generate_template)
-
-        self.btn_set_save_path = self.get_button("设置文件保存路径", self.set_save_path)
+        self.btn_generate_template = self.get_button("担保借款合同", self.generate_template)
+        self.btn_set_save_path = self.get_button("文件路径", self.set_save_path)
         self.label_set_save_path = wx.StaticText(self, -1, label="当前路径")
         self.label_set_save_path.SetFont(self.input_font)
         cur_path = os.path.abspath(".")
@@ -211,15 +229,18 @@ class MyFrame(wx.Frame):
         bottom_box = wx.BoxSizer(wx.HORIZONTAL)
         bottom_box2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 10)
-        bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 30)
+        self.btn_save_data = self.get_button("保存", self.save_user_data)
+        self.btn_resume_last_data = self.get_button("恢复", self.resume_last_data)
+
+        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 20)
+        bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
+        bottom_box.Add(self.btn_resume_last_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
+
+        bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
         bottom_box.Add(self.label_set_save_path, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
-        # self.pack_label(bottom_box, self.input_save_path)
 
-        # bottom_box2.Add(self.input_save_path, 0, wx.ALIGN_LEFT | wx.ALL, 10)
-
-
-        rootBox.Add(bottom_box, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 20)
+        rootBox.Add(bottom_box, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 40)
+        # rootBox.Add(bottom_box2, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.DOWN | wx.EXPAND, 40)
 
         self.SetSizer(rootBox)
         self.SetBackgroundColour(self.panel.GetBackgroundColour())
@@ -229,12 +250,17 @@ class MyFrame(wx.Frame):
         self.timer = wx.Timer(self)  # 创建定时器
         self.Bind(wx.EVT_TIMER, self.refresh_timer, self.timer)  # 绑定一个定时器事件
         self.timer.Start(1000)
+        self.resume_setting()
 
+        # icon = wx.EmptyIcon()
+        # icon.CopyFromBitmap(wx.Bitmap("my.ico", wx.BITMAP_TYPE_ANY))
+        # self.SetIcon(icon)
+        # self.SetBackgroundColour((0, 0, 0))
         pass
 
     def refresh_timer(self, e):
         cur_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        self.SetTitle('合同自动生成器                        ' + cur_time)
+        self.SetTitle(app_title + '                        ' + cur_time)
 
     def get_button(self, text, on_button_method):
         button = wx.Button(self, wx.ID_ANY, text)
@@ -246,7 +272,7 @@ class MyFrame(wx.Frame):
     def get_label(self, label):
         label = wx.StaticText(self.panel, -1, label=label)
         label.SetFont(self.label_font)
-        # label.SetForegroundColour((255, 0, 0))
+        # label.SetForegroundColour((255, 255, 255))
         return label
 
     def get_input_text(self, width):
@@ -289,9 +315,14 @@ class MyFrame(wx.Frame):
             self.loan_number_big.SetLabelText(rmb_upper.cncurrency(e.GetString()))
 
     def cal_actual_rate(self, e):
-        statand = float(self.read_input_text(self.standard_rate).replace("%", ""))
-        dir = self.read_choice_text(self.float_direction)
-        float_num = float(self.read_input_text(self.float_num).replace("%", ""))
+        try:
+            statand = float(self.read_input_text(self.standard_rate).replace("%", ""))
+            dir = self.read_choice_text(self.float_direction)
+            float_num = float(self.read_input_text(self.float_num).replace("%", ""))
+        except BaseException:
+            print("cal_actual_rate exception")
+            return
+
         actual_rate = 0.0
         if dir == '上':
             actual_rate = statand * (1 + float_num/100)
@@ -303,11 +334,14 @@ class MyFrame(wx.Frame):
         if len(self.read_input_text(self.loan_duration_month)) > 0:
             self.repayment_times.SetLabelText(self.read_input_text(self.loan_duration_month))
 
-        start_year = int(self.read_input_text(self.start_year))
-        start_month = int(self.read_input_text(self.start_month))
-        start_day = int(self.read_input_text(self.start_day))
-        duartion_month = int(self.read_input_text(self.loan_duration_month))
-
+        try:
+            start_year = int(self.read_input_text(self.start_year))
+            start_month = int(self.read_input_text(self.start_month))
+            start_day = int(self.read_input_text(self.start_day))
+            duartion_month = int(self.read_input_text(self.loan_duration_month))
+        except BaseException:
+            print("cal_end_date exception")
+            return
 
         print("start calculate end date")
         total_m = duartion_month
@@ -332,6 +366,8 @@ class MyFrame(wx.Frame):
             self.label_set_save_path.SetLabelText(dlg.GetPath())
 
         dlg.Destroy()
+        self.save_setting()
+
         pass
 
     def reset_file_save_path(self, file_name):
@@ -351,27 +387,12 @@ class MyFrame(wx.Frame):
         # percent = 20
         # progress.Update(percent)
 
-        input_arr = ['borrower_name1', 'borrower_home1', 'borrower_adress1',
-                     'borrower_id1', 'borrower_phone1', 'borrower_name2',
-                     'borrower_home2', 'borrower_adress2', 'borrower_id2',
-                     'borrower_phone2', 'loan_proportion', 'loan_number_big',
-                     'loan_number_small', 'house_location', 'house_area',
-                     'house_price', 'loan_duration_month', 'start_year',
-                     'start_month', 'start_day', 'end_year',
-                     'end_month', 'end_day', 'standard_rate',
-                      'float_num', 'actual_rate',
-                     'account_name', 'account_num', 'repayment_times',
-                      'repayment_num_big', 'repayment_num_small',
-                     'pawn_num', 'contract_num', 'loan_contract_id',
-                     'contract_id'
-                     ]
+        input_arr = self.input_data_arr
+        self.input_data_arr = input_arr
+
         choice_arr = ['float_direction', 'repayment_method']
 
         borrower_name1 = self.read_input_text(self.borrower_name1)
-
-
-        doc = DocxTemplate("模板.docx")
-
         progress.Update(10)
 
         context = {
@@ -394,17 +415,17 @@ class MyFrame(wx.Frame):
 
         print(context)
 
-        file_name = borrower_name1 + "_资料.docx"
+        file_name = borrower_name1 + "_购房担保借款合同.docx"
+
+        doc = DocxTemplate("担保借款合同模板.docx")
         doc.render(context)
 
         progress.Update(80)
 
         doc.save(file_name)
-
         progress.Update(95)
 
         self.reset_file_save_path(file_name)
-
         progress.Update(100)
         progress.Destroy()
 
@@ -416,10 +437,73 @@ class MyFrame(wx.Frame):
     def read_choice_text(self, ch):
         return ch.GetString(ch.GetSelection())
 
+    def save_setting(self):
+        setting = {}
+        save_path = self.label_set_save_path.GetLabel()
+        setting.update({"save_path": save_path})
+
+        with open('setting.ini', 'w', encoding='utf-8') as f:
+            json.dump(setting, f)
+
+    def resume_setting(self):
+        if not os.path.exists('setting.ini'):
+            print('setting.ini is not exist')
+            return
+        with open('setting.ini', encoding='utf-8') as f:
+            setting = json.load(f)
+            print('load file setting.ini')
+            print(setting)
+            save_path = setting['save_path']
+            self.label_set_save_path.SetLabelText(save_path)
+            print('set save path:', save_path)
+
+    def save_user_data(self, e):
+        input_arr = self.input_data_arr
+        context = {
+            # 'borrower_name1': borrower_name1
+        }
+        # eval(): 将字符串转成成表达式计算，并返回结果
+        for index in range(len(input_arr)):
+            read_command = 'self.read_input_text(self.' + input_arr[index] + ')'
+            context.update({input_arr[index]: eval(read_command)})
+
+        setting = {}
+        save_path = self.label_set_save_path.GetLabel()
+        setting.update({"save_path": save_path})
+        setting.update({"user_date": context})
+
+        with open('setting.ini', 'w', encoding='utf-8') as f:
+            json.dump(setting, f)
+
+        pass
+
+    def resume_last_data(self, e):
+        if not os.path.exists('setting.ini'):
+            print('setting.ini is not exist')
+            return
+        with open('setting.ini', encoding='utf-8') as f:
+            setting = json.load(f)
+            print('load file setting.ini')
+            save_path = setting['save_path']
+            self.label_set_save_path.SetLabelText(save_path)
+
+            context = setting['user_date']
+            if context == None :
+                return
+
+            # print(context)
+            input_arr = self.input_data_arr
+            # eval(): 将字符串转成成表达式计算，并返回结果
+            for index in range(len(input_arr)):
+                value = eval("context['" + input_arr[index] + "']")
+                set_command = 'self.' + input_arr[index] + '.SetLabelText("' + value + '")'
+                context.update({input_arr[index]: eval(set_command)})
+
+        pass
 
 def main():
     app = wx.App()
-    ex = MyFrame(None, title='合同自动生成器')
+    ex = MyFrame(None, title=app_title)
     ex.Show()
     app.MainLoop()
 
