@@ -1,0 +1,27 @@
+
+借款人1姓名	  借款人1住所地	   借款人1通讯地址	    借款人1身份证编号
+borrower_name1	borrower_home1	borrower_adress1	borrower_id1
+			
+			
+借款人2姓名	借款人2住所地	借款人2通讯地址	借款人2身份证编号
+borrower_name2	borrower_home2	borrower_adress2	borrower_id2
+			
+			
+几成购房贷款	贷款金额大写	贷款金额小写	购房地址
+loan_proportion	loan_number_big	loan_number_small	house_location
+			
+			
+房屋售价		借款期限：月	    起始年
+house_price		loan_duration_month	start_year
+			
+			
+截止年	月	日	基准利率
+end_year	end_month	end_day	standard_rate
+			
+			
+执行年利率	户名	账号	还款期数
+actual_rate	account_name	account_num	repayment_times
+			
+			
+抵押物编号	合同份数：大写	借款合同编号	合同编号
+pawn_num	contract_num	loan_contract_id	contract_id

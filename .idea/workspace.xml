@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="295b055d-8457-48fc-8370-20c2e29db3a0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/WordGenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/模板.docx" beforeDir="false" afterPath="$PROJECT_DIR$/模板.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="309" column="21" lean-forward="true" selection-start-line="309" selection-start-column="21" selection-end-line="309" selection-end-column="21" />
+            <state relative-caret-position="197">
+              <caret line="293" column="80" lean-forward="true" selection-start-line="293" selection-start-column="80" selection-end-line="293" selection-end-column="80" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -38,6 +39,7 @@
       <find>panel</find>
       <find>vbox2</find>
       <find>sep</find>
+      <find>cal_actual_rate</find>
     </findStrings>
     <replaceStrings>
       <replace>self.panel</replace>
@@ -59,9 +61,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="width" value="978" />
-    <option name="height" value="1039" />
+    <option name="x" value="676" />
+    <option name="width" value="979" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -246,7 +248,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -336,8 +337,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="309" column="21" lean-forward="true" selection-start-line="309" selection-start-column="21" selection-end-line="309" selection-end-column="21" />
+        <state relative-caret-position="197">
+          <caret line="293" column="80" lean-forward="true" selection-start-line="293" selection-start-column="80" selection-end-line="293" selection-end-column="80" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>

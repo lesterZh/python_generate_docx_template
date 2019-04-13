@@ -50,6 +50,9 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "借款人1住所地", self.borrower_home1)
 
         self.borrower_adress1 = self.get_input_text(300)
+        # self.borrower_adress1.Bind(wx.EVT_TEXT, self.syn_borrower_address)
+        self.borrower_adress1.Bind(wx.EVT_TEXT, self.syn_borrower_address)
+
         self.pack_input_text(hbox_temp, "借款人1通讯地址", self.borrower_adress1)
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
@@ -130,13 +133,16 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "-日", self.end_day)
 
         self.standard_rate = self.get_input_text(100)
+        self.standard_rate.SetLabelText("4.9")
         self.pack_input_text(hbox_temp, "基准利率", self.standard_rate)
 
         float_direction_arr = ["上", "下"]
         self.float_direction = self.get_choice(float_direction_arr)
+        self.float_direction.Bind(wx.EVT_TEXT, self.cal_actual_rate)
         self.pack_input_text(hbox_temp, "浮动（上/下）", self.float_direction)
 
         self.float_num = self.get_input_text(100)
+        self.float_num.Bind(wx.EVT_TEXT, self.cal_actual_rate)
         self.pack_input_text(hbox_temp, "浮动百分百", self.float_num)
 
         hbox8 = wx.BoxSizer(wx.HORIZONTAL)
@@ -265,6 +271,9 @@ class MyFrame(wx.Frame):
         ch.SetFont(self.input_font)
         return ch
 
+    def syn_borrower_address(self, e):
+        self.borrower_adress2.SetLabelText(self.read_input_text(self.borrower_adress1))
+
     def convert_repayment_num(self, e):
         money = e.GetString()
         if len(money) == 0:
@@ -279,11 +288,26 @@ class MyFrame(wx.Frame):
         else:
             self.loan_number_big.SetLabelText(rmb_upper.cncurrency(e.GetString()))
 
+    def cal_actual_rate(self, e):
+        statand = float(self.read_input_text(self.standard_rate).replace("%", ""))
+        dir = self.read_choice_text(self.float_direction)
+        float_num = float(self.read_input_text(self.float_num).replace("%", ""))
+        actual_rate = 0.0
+        if dir == '上':
+            actual_rate = statand * (1 + float_num/100)
+        else:
+            actual_rate = statand * (1 - float_num / 100)
+        self.actual_rate.SetLabelText(str(round(actual_rate, 3)))
+
     def cal_end_date(self, e):
+        if len(self.read_input_text(self.loan_duration_month)) > 0:
+            self.repayment_times.SetLabelText(self.read_input_text(self.loan_duration_month))
+
         start_year = int(self.read_input_text(self.start_year))
         start_month = int(self.read_input_text(self.start_month))
         start_day = int(self.read_input_text(self.start_day))
         duartion_month = int(self.read_input_text(self.loan_duration_month))
+
 
         print("start calculate end date")
         total_m = duartion_month
@@ -322,6 +346,11 @@ class MyFrame(wx.Frame):
         return True
 
     def generate_template(self, e):
+        progress = wx.ProgressDialog("正在生成", "请稍等", maximum=100, parent=self,
+                                     style=wx.PD_SMOOTH | wx.PD_AUTO_HIDE)
+        # percent = 20
+        # progress.Update(percent)
+
         input_arr = ['borrower_name1', 'borrower_home1', 'borrower_adress1',
                      'borrower_id1', 'borrower_phone1', 'borrower_name2',
                      'borrower_home2', 'borrower_adress2', 'borrower_id2',
@@ -343,6 +372,8 @@ class MyFrame(wx.Frame):
 
         doc = DocxTemplate("模板.docx")
 
+        progress.Update(10)
+
         context = {
             # 'borrower_name1': borrower_name1
         }
@@ -354,6 +385,7 @@ class MyFrame(wx.Frame):
         for index in range(len(input_arr)):
             read_command = 'self.read_input_text(self.' + input_arr[index] + ')'
             context.update({input_arr[index]: eval(read_command)})
+            progress.Update(10 + index)
 
         # eval(): 将字符串转成成表达式计算，并返回结果
         for index in range(len(choice_arr)):
@@ -364,8 +396,17 @@ class MyFrame(wx.Frame):
 
         file_name = borrower_name1 + "_资料.docx"
         doc.render(context)
+
+        progress.Update(80)
+
         doc.save(file_name)
+
+        progress.Update(95)
+
         self.reset_file_save_path(file_name)
+
+        progress.Update(100)
+        progress.Destroy()
 
         wx.MessageBox("文件生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
 
