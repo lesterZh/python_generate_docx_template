@@ -6,6 +6,8 @@ import wx
 import wx.lib.scrolledpanel
 from docxtpl import DocxTemplate
 import rmb_upper
+import datetime
+
 from decimal import Decimal
 
 class MyFrame(wx.Frame):
@@ -100,15 +102,19 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "建筑面积", self.house_area)
 
         self.loan_duration_month = self.get_input_text(100)
-        self.pack_input_text(hbox_temp, "借款期限：月", self.loan_duration_month)
+        self.loan_duration_month.Bind(wx.EVT_TEXT, self.cal_end_date)
+        self.pack_input_text(hbox_temp, "借款期限/月", self.loan_duration_month)
 
         self.start_year = self.get_input_text(100)
+        self.start_year.Bind(wx.EVT_TEXT, self.cal_end_date)
         self.pack_input_text(hbox_temp, "起始年", self.start_year)
 
         self.start_month = self.get_input_text(100)
+        self.start_month.Bind(wx.EVT_TEXT, self.cal_end_date)
         self.pack_input_text(hbox_temp, "-月", self.start_month)
 
         self.start_day = self.get_input_text(100)
+        self.start_day.Bind(wx.EVT_TEXT, self.cal_end_date)
         self.pack_input_text(hbox_temp, "-日", self.start_day)
 
         hbox7 = wx.BoxSizer(wx.HORIZONTAL)
@@ -256,9 +262,30 @@ class MyFrame(wx.Frame):
         else:
             self.loan_number_big.SetLabelText(rmb_upper.cncurrency(e.GetString()))
 
+    def cal_end_date(self, e):
+        start_year = int(self.read_input_text(self.start_year))
+        start_month = int(self.read_input_text(self.start_month))
+        start_day = int(self.read_input_text(self.start_day))
+        duartion_month = int(self.read_input_text(self.loan_duration_month))
+
+        print("start calculate end date")
+        total_m = duartion_month
+        end_year = start_year + int(total_m / 12)
+        end_month = start_month + total_m % 12
+        if end_month > 12:
+            end_month = end_month - 12
+            end_year = end_year + 1
+        end_day = start_day
+
+        self.end_year.SetLabelText(str(end_year))
+        self.end_month.SetLabelText(str(end_month))
+        self.end_day.SetLabelText(str(end_day))
+        # if start_year.isdigit() and start_month.isdigit() and start_day.isdigit() and duartion_month.isdigit():
+        #     print("cal")
     def set_save_path(self):
 
         pass
+
 
     def reset_file_save_path(self, file_name):
         path = "D:/"
