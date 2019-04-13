@@ -6,7 +6,8 @@ import wx
 import wx.lib.scrolledpanel
 from docxtpl import DocxTemplate
 import rmb_upper
-import datetime
+import os
+import time
 
 from decimal import Decimal
 
@@ -190,29 +191,44 @@ class MyFrame(wx.Frame):
         panel_box.Add(hbox9)
         panel_box.Add(hbox10)
         self.panel.SetSizer(panel_box)
+
         rootBox.Add(self.panel, 1, wx.EXPAND | wx.ALL, 20)
 
         self.btn_generate_template = self.get_button("生成合同", self.generate_template)
-        # self.btn_set_save_path = self.get_button("设置文件保存路径", self.generate_template)
+
+        self.btn_set_save_path = self.get_button("设置文件保存路径", self.set_save_path)
+        self.label_set_save_path = wx.StaticText(self, -1, label="当前路径")
+        self.label_set_save_path.SetFont(self.input_font)
+        cur_path = os.path.abspath(".")
+        self.label_set_save_path.SetLabelText(cur_path)
 
         bottom_box = wx.BoxSizer(wx.HORIZONTAL)
         bottom_box2 = wx.BoxSizer(wx.HORIZONTAL)
-        # bottom_box.Add(self.input_save_path, 1)
+
+        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 10)
+        bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 30)
+        bottom_box.Add(self.label_set_save_path, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
         # self.pack_label(bottom_box, self.input_save_path)
 
-        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_LEFT | wx.ALL, 10)
         # bottom_box2.Add(self.input_save_path, 0, wx.ALIGN_LEFT | wx.ALL, 10)
+
 
         rootBox.Add(bottom_box, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 20)
 
         self.SetSizer(rootBox)
         self.SetBackgroundColour(self.panel.GetBackgroundColour())
 
-        # xing_bie_arr = ['男', '女']
-        # self.xing_bie = self.get_choice(xing_bie_arr)
-        # self.pack_input_text(hbox1, "性别", self.xing_bie)
+
+        # 创建定时器
+        self.timer = wx.Timer(self)  # 创建定时器
+        self.Bind(wx.EVT_TIMER, self.refresh_timer, self.timer)  # 绑定一个定时器事件
+        self.timer.Start(1000)
 
         pass
+
+    def refresh_timer(self, e):
+        cur_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        self.SetTitle('合同自动生成器                        ' + cur_time)
 
     def get_button(self, text, on_button_method):
         button = wx.Button(self, wx.ID_ANY, text)
@@ -220,6 +236,7 @@ class MyFrame(wx.Frame):
         button.SetFont(self.label_font)
         return button
 
+    # 注意这里 label的父容器是panel
     def get_label(self, label):
         label = wx.StaticText(self.panel, -1, label=label)
         label.SetFont(self.label_font)
@@ -282,14 +299,22 @@ class MyFrame(wx.Frame):
         self.end_day.SetLabelText(str(end_day))
         # if start_year.isdigit() and start_month.isdigit() and start_day.isdigit() and duartion_month.isdigit():
         #     print("cal")
-    def set_save_path(self):
 
+    def set_save_path(self, e):
+        # Create open file dialog
+        dlg = wx.DirDialog(self, "选择文件保存路径", style=wx.DD_DEFAULT_STYLE)
+        if dlg.ShowModal() == wx.ID_OK:
+            print (dlg.GetPath())  # 文件夹路径
+            self.label_set_save_path.SetLabelText(dlg.GetPath())
+
+        dlg.Destroy()
         pass
 
-
     def reset_file_save_path(self, file_name):
-        path = "D:/"
-        shutil.move(file_name, path + file_name)
+        path = self.label_set_save_path.GetLabelText()
+        new_file = os.path.join(path, file_name)
+        print("move to ", new_file)
+        shutil.move(file_name, new_file)
 
     def check_input_valid(self):
         # if len(str(shen_fen_zheng)) != 3:
@@ -340,6 +365,8 @@ class MyFrame(wx.Frame):
         file_name = borrower_name1 + "_资料.docx"
         doc.render(context)
         doc.save(file_name)
+        self.reset_file_save_path(file_name)
+
         wx.MessageBox("文件生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
 
     def read_input_text(self, input):
@@ -347,6 +374,7 @@ class MyFrame(wx.Frame):
 
     def read_choice_text(self, ch):
         return ch.GetString(ch.GetSelection())
+
 
 def main():
     app = wx.App()
