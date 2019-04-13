@@ -1,0 +1,2 @@
+# python_generate_docx_template
+使用python写的，根据word文档模板，自动生成合同材料，相关的输入信息通过UI界面来输入。
