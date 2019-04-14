@@ -437,7 +437,13 @@ class MyFrame(wx.Frame):
 
     def reset_file_save_path(self, file_name):
         path = self.label_set_save_path.GetLabelText()
-        new_file = os.path.join(path, file_name)
+
+        new_folder = os.path.join(path, self.borrower_name)
+        print(new_folder)
+        if not os.path.exists(new_folder):
+            os.mkdir(new_folder)
+
+        new_file = os.path.join(new_folder, file_name)
         print("move to ", new_file)
         try:
             if os.path.exists(new_file):
@@ -446,7 +452,7 @@ class MyFrame(wx.Frame):
         except BaseException:
             print("file save error ")
             self.file_generate_error = True
-            wx.MessageBox("请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox("文件写如错误，请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
 
     def check_input_valid(self):
         # if len(str(shen_fen_zheng)) != 3:
@@ -470,6 +476,8 @@ class MyFrame(wx.Frame):
         choice_arr = self.choice_data_arr
 
         borrower_name1 = self.read_input_text(self.borrower_name1)
+        self.borrower_name = borrower_name1
+
         progress.Update(10)
 
         context = {
@@ -533,7 +541,7 @@ class MyFrame(wx.Frame):
         except BaseException:
             print("file save error in doc")
             self.file_generate_error = True
-            wx.MessageBox("请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox("文件写如错误，请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
 
         progress.Update(origin_value + progress_value * 0.8)
         self.reset_file_save_path(new_file_name)

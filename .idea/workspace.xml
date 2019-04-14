@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/WordGenerate.py" line="695" />
+    <bookmark url="file://$PROJECT_DIR$/WordGenerate.py" line="703" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="295b055d-8457-48fc-8370-20c2e29db3a0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordGenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/id_name.txt" beforeDir="false" afterPath="$PROJECT_DIR$/id_name.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting.ini" beforeDir="false" afterPath="$PROJECT_DIR$/setting.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/~$借款合同模板.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/WordGenerate.exe" beforeDir="false" afterPath="$PROJECT_DIR$/dist/WordGenerate.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/张婷婷_购房担保借款合同.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/模板.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/说明文档.txt" beforeDir="false" afterPath="$PROJECT_DIR$/说明文档.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +31,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1462">
-              <caret line="283" column="109" selection-start-line="283" selection-start-column="109" selection-end-line="283" selection-end-column="109" />
+            <state relative-caret-position="6057">
+              <caret line="701" selection-start-line="701" selection-end-line="701" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -50,6 +59,7 @@
       <find>app_titl</find>
       <find>float_dir</find>
       <find>模板</find>
+      <find>请检查word文件是否关闭</find>
     </findStrings>
     <replaceStrings>
       <replace>self.panel</replace>
@@ -259,12 +269,12 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.36209336" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36209336" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -283,12 +293,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>696</line>
+          <line>704</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>697</line>
+          <line>705</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -370,8 +380,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1462">
-          <caret line="283" column="109" selection-start-line="283" selection-start-column="109" selection-end-line="283" selection-end-column="109" />
+        <state relative-caret-position="6057">
+          <caret line="701" selection-start-line="701" selection-end-line="701" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>

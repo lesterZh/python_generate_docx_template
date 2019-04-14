@@ -1,0 +1,77 @@
+软件使用说明：
+在软件界面对应的字段填入实际需要输入的内容，点击 “生成合同”按钮，软件会自动生成合同，生成合同的保存路径可以通过
+点击 文件路径 进行设置，在用户信息录入的过程中可以点击 “保存”按钮就当前的输入信息保存，当软件再次打开时候，
+点击“恢复”按钮即可恢复上一次保存的内容。
+
+模板调整方法：
+模板的格式和内容可以根据需要进行调整，如果是非系统生成字段可以任意调整。
+
+对系统自动生成的字段，可在对应的位置上添加或者修改相应的字段。
+
+在word合同模板需要输入对应的字段信息，如：借款人1姓名，在准备输入实际 借款人1姓名，如 陈涛 的位置填上 
+{{borrower_name1}}
+那么在程序运行时，{{borrower_name1}}会被替换成实际输入的信息，如 陈涛。
+
+即从程序到word文档的对应关系：在软件“借款人1姓名”的输入框中输入 “陈涛”，
+那么word文档中的{{borrower_name1}}会被替换成“陈涛”。
+
+新增模板方法：
+如果想增加新的模板，模板中需要填入软件显示的一些用户信息，那么可以在软件的当前目录下放入你要增加的文档，
+然后在文档对应的位置填入你要替换的字段符号。
+
+注意：文档的名字需要以“模板”2字结尾，文档的格式是docx,即文档的后缀是以 .docx 结尾。
+
+字段对应表：
+如 借款人1姓名 对应 borrower_name1，在文档中应该填写 格式：{{borrower_name1}}
+
+借款人1姓名 设置一个别名 nm1
+
+借款人1姓名	   借款人1住所地	借款人1通讯地址	  借款人1身份证编号	借款人1电话		
+borrower_name1	borrower_home1	borrower_adress1	borrower_id1	borrower_phone1		
+						
+						
+借款人2姓名	借款人2住所地	    借款人2通讯地址	   借款人2身份证编号 借款人2电话		
+borrower_name2	borrower_home2	borrower_adress2	borrower_id2	borrower_phone2		
+						
+						
+几成购房贷款	贷款金额大写	贷款金额小写	    购房地址	    建筑面积		
+loan_proportion	loan_number_big	loan_number_small	house_location	house_area		
+						
+						
+房屋售价		借款期限：月	      起始年	    月	        日	
+house_price		loan_duration_month	start_year	start_month	start_day	
+						
+						
+截止年	    月	        日	     基准利率	     浮动（上/下）	浮动百分百	
+end_year	end_month	end_day	standard_rate	float_direction	float_num	
+						
+						
+执行年利率	户名	           账号	       还款期数	        还款方式:A/B	           还款金额大写	     还款金额小写
+actual_rate	account_name	account_num	 repayment_times	repayment_method	repayment_num_big	repayment_num_small
+						
+						
+抵押物编号	合同份数：大写	借款合同编号	    合同编号			
+pawn_num	contract_num	loan_contract_id	contract_id			
+
+
+
+房屋座别 house_no
+
+借款人1户籍 household1
+借款人1性别 sex1
+借款人1年龄 age1
+婚姻状况 marg
+
+借款人1月收入 month_income1
+借款人2月收入 month_income2
+供养人口 sup_people
+
+借款人1单位 company1
+借款人2单位 company2
+借款人1单位电话 company_phone1
+借款人2单位电话 company_phone2
+
+需要计算，计算公式：
+家庭收入 home_income = month_income1 + month_income2
+房屋单价 house_uint_price = house_price / house_area
+已付购房款 paid_house_money = house_price * (1-loan_proportion)

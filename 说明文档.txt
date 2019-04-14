@@ -15,10 +15,16 @@
 即从程序到word文档的对应关系：在软件“借款人1姓名”的输入框中输入 “陈涛”，
 那么word文档中的{{borrower_name1}}会被替换成“陈涛”。
 
+新增模板方法：
+如果想增加新的模板，模板中需要填入软件显示的一些用户信息，那么可以在软件的当前目录下放入你要增加的文档，
+然后在文档对应的位置填入你要替换的字段符号。
+
+注意：文档的名字需要以“模板”2字结尾，文档的格式是docx,即文档的后缀是以 .docx 结尾。
 
 字段对应表：
 如 借款人1姓名 对应 borrower_name1，在文档中应该填写 格式：{{borrower_name1}}
 
+借款人1姓名 设置一个别名 nm1
 
 借款人1姓名	   借款人1住所地	借款人1通讯地址	  借款人1身份证编号	借款人1电话		
 borrower_name1	borrower_home1	borrower_adress1	borrower_id1	borrower_phone1		
@@ -47,7 +53,7 @@ actual_rate	account_name	account_num	 repayment_times	repayment_method	repayment
 抵押物编号	合同份数：大写	借款合同编号	    合同编号			
 pawn_num	contract_num	loan_contract_id	contract_id			
 
-借款人1姓名 设置一个别名 nm1
+
 
 房屋座别 house_no
 
