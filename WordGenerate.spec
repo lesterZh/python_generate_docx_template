@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['WordGenerate.py'],
              pathex=['C:\\Users\\geb9wx\\PycharmProjects\\untitled'],
              binaries=[],
-             datas=[('src/my.ico','.')],
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -29,4 +29,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False , icon='my.ico')
+          console=False , icon='app.ico')

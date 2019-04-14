@@ -1,3 +1,11 @@
+在word合同模板需要输入对应的字段信息，如：借款人1姓名，在需要输入 借款人1姓名 的位置填上 {{borrower_name1}}
+那么在程序运行时，{{borrower_name1}}会被替换成实际输入的信息。
+
+
+字段对应表：
+如 借款人1姓名 对应 borrower_name1，在文档中应该填写 格式：{{borrower_name1}}
+
+
 借款人1姓名	借款人1住所地	借款人1通讯地址	借款人1身份证编号	借款人1电话		
 borrower_name1	borrower_home1	borrower_adress1	borrower_id1	borrower_phone1		
 						

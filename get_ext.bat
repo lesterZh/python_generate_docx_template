@@ -1,3 +1,3 @@
-::pyi-makespec -F -w -i my.ico WordGenerate.py
-pyinstaller -F -w -i my.ico WordGenerate.spec
+::pyi-makespec -F -w -i m.ico WordGenerate.py
+pyinstaller -F -w -i app.ico WordGenerate.py
 pause

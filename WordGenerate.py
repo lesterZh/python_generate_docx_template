@@ -13,13 +13,14 @@ import json
 app_title = '小尹办公'
 
 class MyFrame(wx.Frame):
-
+    file_generate_error = False
     text_right_pad = 3
     input_right_pad = 20
     input_height = 22
     label_flag = wx.FIXED_MINSIZE | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
     input_flag = wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
 
+    choice_data_arr = ['float_direction', 'repayment_method']
     input_data_arr = ['borrower_name1', 'borrower_home1', 'borrower_adress1',
                  'borrower_id1', 'borrower_phone1', 'borrower_name2',
                  'borrower_home2', 'borrower_adress2', 'borrower_id2',
@@ -30,9 +31,7 @@ class MyFrame(wx.Frame):
                  'end_month', 'end_day', 'standard_rate',
                  'float_num', 'actual_rate',
                  'account_name', 'account_num', 'repayment_times',
-                 'repayment_num_big', 'repayment_num_small',
-                 'pawn_num', 'contract_num', 'loan_contract_id',
-                 'contract_id'
+                 'repayment_num_big', 'repayment_num_small'
                  ]
 
     def __init__(self, parent, title):
@@ -104,6 +103,7 @@ class MyFrame(wx.Frame):
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox5
         self.loan_proportion = self.get_input_text(100)
+        self.loan_proportion.Bind(wx.EVT_TEXT, self.cal_house_price)
         self.pack_input_text(hbox_temp, "几成购房贷款", self.loan_proportion)
 
         self.loan_number_small = self.get_input_text(150)
@@ -191,19 +191,7 @@ class MyFrame(wx.Frame):
         self.repayment_num_big = self.get_input_text(300)
         self.pack_input_text(hbox_temp, "还款金额大写", self.repayment_num_big)
 
-        self.pawn_num = self.get_input_text(200)
-        self.pack_input_text(hbox_temp, "抵押物编号", self.pawn_num)
 
-        hbox10 = wx.BoxSizer(wx.HORIZONTAL)
-        hbox_temp = hbox10
-        self.contract_num = self.get_input_text(100)
-        self.pack_input_text(hbox_temp, "合同份数：大写", self.contract_num)
-
-        self.loan_contract_id = self.get_input_text(300)
-        self.pack_input_text(hbox_temp, "借款合同编号", self.loan_contract_id)
-
-        self.contract_id = self.get_input_text(300)
-        self.pack_input_text(hbox_temp, "合同编号", self.contract_id)
 
         panel_box.Add(hbox1)
         panel_box.Add(hbox2)
@@ -214,12 +202,11 @@ class MyFrame(wx.Frame):
         panel_box.Add(hbox7)
         panel_box.Add(hbox8)
         panel_box.Add(hbox9)
-        panel_box.Add(hbox10)
         self.panel.SetSizer(panel_box)
 
         rootBox.Add(self.panel, 1, wx.EXPAND | wx.ALL, 20)
 
-        self.btn_generate_template = self.get_button("担保借款合同", self.generate_template)
+        self.btn_generate_template = self.get_button("生成合同", self.generate_template)
         self.btn_set_save_path = self.get_button("文件路径", self.set_save_path)
         self.label_set_save_path = wx.StaticText(self, -1, label="当前路径")
         self.label_set_save_path.SetFont(self.input_font)
@@ -313,6 +300,18 @@ class MyFrame(wx.Frame):
             self.loan_number_big.SetLabelText("")
         else:
             self.loan_number_big.SetLabelText(rmb_upper.cncurrency(e.GetString()))
+            self.cal_house_price(e)
+
+    def cal_house_price(self, e):
+        try:
+            loan_pr = float(self.read_input_text(self.loan_proportion))
+            loan_num = float(self.read_input_text(self.loan_number_small))
+        except BaseException:
+            return
+
+        house_price = loan_num / loan_pr * 10
+        self.house_price.SetLabelText(str(round(house_price, 2)))
+        pass
 
     def cal_actual_rate(self, e):
         try:
@@ -374,7 +373,14 @@ class MyFrame(wx.Frame):
         path = self.label_set_save_path.GetLabelText()
         new_file = os.path.join(path, file_name)
         print("move to ", new_file)
-        shutil.move(file_name, new_file)
+        try:
+            if os.path.exists(new_file):
+                os.remove(new_file)
+            shutil.move(file_name, new_file)
+        except BaseException:
+            print("file save error ")
+            self.file_generate_error = True
+            wx.MessageBox("请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
 
     def check_input_valid(self):
         # if len(str(shen_fen_zheng)) != 3:
@@ -388,9 +394,7 @@ class MyFrame(wx.Frame):
         # progress.Update(percent)
 
         input_arr = self.input_data_arr
-        self.input_data_arr = input_arr
-
-        choice_arr = ['float_direction', 'repayment_method']
+        choice_arr = self.choice_data_arr
 
         borrower_name1 = self.read_input_text(self.borrower_name1)
         progress.Update(10)
@@ -406,7 +410,8 @@ class MyFrame(wx.Frame):
         for index in range(len(input_arr)):
             read_command = 'self.read_input_text(self.' + input_arr[index] + ')'
             context.update({input_arr[index]: eval(read_command)})
-            progress.Update(10 + index)
+
+        progress.Update(20)
 
         # eval(): 将字符串转成成表达式计算，并返回结果
         for index in range(len(choice_arr)):
@@ -415,21 +420,41 @@ class MyFrame(wx.Frame):
 
         print(context)
 
-        file_name = borrower_name1 + "_购房担保借款合同.docx"
+        # 文件数量
+        file_num = 1
+        file_name = "担保借款合同模板.docx"
+        self.file_generate_error = False
 
-        doc = DocxTemplate("担保借款合同模板.docx")
-        doc.render(context)
+        self.generate_doc(file_name, borrower_name1, context, progress, file_num)
 
-        progress.Update(80)
-
-        doc.save(file_name)
-        progress.Update(95)
-
-        self.reset_file_save_path(file_name)
         progress.Update(100)
         progress.Destroy()
 
-        wx.MessageBox("文件生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
+        if not self.file_generate_error:
+            wx.MessageBox("文件生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
+
+    def generate_doc(self, file_name, prefix_name, context, progress, file_num):
+        progress_value = 80 / file_num
+        origin_value = progress.GetValue()
+        print(origin_value)
+        new_file_name = prefix_name + "_" + file_name
+        new_file_name.replace('模板', '')
+
+        try:
+            doc = DocxTemplate(file_name)
+            progress.Update(origin_value + progress_value * 0.2)
+            doc.render(context)
+            progress.Update(origin_value + progress_value * 0.6)
+            doc.save(new_file_name)
+        except BaseException:
+            print("file save error ")
+            self.file_generate_error = True
+            wx.MessageBox("请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
+
+        print(origin_value + progress_value * 0.8)
+        progress.Update(origin_value + progress_value * 0.8)
+        self.reset_file_save_path(new_file_name)
+        progress.Update(origin_value + progress_value * 1)
 
     def read_input_text(self, input):
         return input.GetLineText(0)
