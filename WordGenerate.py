@@ -10,7 +10,7 @@ import os
 import time
 import json
 
-app_title = '小尹办公'
+app_title = '合同神器'
 
 class MyFrame(wx.Frame):
     file_generate_error = False
@@ -20,7 +20,7 @@ class MyFrame(wx.Frame):
     label_flag = wx.FIXED_MINSIZE | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
     input_flag = wx.RIGHT | wx.ALIGN_CENTER_VERTICAL
 
-    choice_data_arr = ['float_direction', 'repayment_method']
+    choice_data_arr = ['float_direction', 'repayment_method', 'sex1']
     input_data_arr = ['borrower_name1', 'borrower_home1', 'borrower_adress1',
                  'borrower_id1', 'borrower_phone1', 'borrower_name2',
                  'borrower_home2', 'borrower_adress2', 'borrower_id2',
@@ -31,7 +31,12 @@ class MyFrame(wx.Frame):
                  'end_month', 'end_day', 'standard_rate',
                  'float_num', 'actual_rate',
                  'account_name', 'account_num', 'repayment_times',
-                 'repayment_num_big', 'repayment_num_small'
+                 'repayment_num_big', 'repayment_num_small',
+                 'age1', 'household1', 'marg',
+                 'month_income1', 'month_income2', 'sup_people',
+                 'company1', 'company2', 'company_phone1', 'company_phone2',
+                 'home_income', 'house_uint_price', 'paid_house_money',
+                 'house_no'
                  ]
 
     def __init__(self, parent, title):
@@ -68,18 +73,51 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "借款人1住所地", self.borrower_home1)
 
         self.borrower_adress1 = self.get_input_text(300)
-        # self.borrower_adress1.Bind(wx.EVT_TEXT, self.syn_borrower_address)
         self.borrower_adress1.Bind(wx.EVT_TEXT, self.syn_borrower_address)
-
         self.pack_input_text(hbox_temp, "借款人1通讯地址", self.borrower_adress1)
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox2
         self.borrower_id1 = self.get_input_text(200)
-        self.pack_input_text(hbox_temp, "借款人1身份证编号", self.borrower_id1)
+        self.pack_input_text(hbox_temp, "借款人1身份证号", self.borrower_id1)
 
         self.borrower_phone1 = self.get_input_text(200)
-        self.pack_input_text(hbox_temp, "借款人1电话", self.borrower_phone1)
+        self.pack_input_text(hbox_temp, "电话", self.borrower_phone1)
+
+        sex_arr = ['男', '女']
+        self.sex1 = self.get_choice(sex_arr)
+        self.pack_input_text(hbox_temp, "性别", self.sex1)
+
+        self.age1 = self.get_input_text(50)
+        self.pack_input_text(hbox_temp, "年龄", self.age1)
+
+        self.household1 = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "户籍", self.household1)
+
+        hbox22 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox_temp = hbox22
+        self.company1 = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "借款人1单位", self.company1)
+        self.company_phone1 = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "单位电话", self.company_phone1)
+        self.month_income1 = self.get_input_text(100)
+        self.month_income1.Bind(wx.EVT_TEXT, self.cal_home_income)
+        self.pack_input_text(hbox_temp, "月收入", self.month_income1)
+        self.sup_people = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "供养人数", self.sup_people)
+
+        hbox23 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox_temp = hbox23
+        self.company2 = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "借款人2单位", self.company2)
+        self.company_phone2 = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "单位电话", self.company_phone2)
+        self.month_income2 = self.get_input_text(100)
+        self.month_income2.Bind(wx.EVT_TEXT, self.cal_home_income)
+        self.pack_input_text(hbox_temp, "月收入", self.month_income2)
+        self.home_income = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "家庭月收入", self.home_income)
+
 
         hbox3 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox3
@@ -95,10 +133,13 @@ class MyFrame(wx.Frame):
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox4
         self.borrower_id2 = self.get_input_text(200)
-        self.pack_input_text(hbox_temp, "借款人2身份证编号", self.borrower_id2)
+        self.pack_input_text(hbox_temp, "借款人2身份证号", self.borrower_id2)
 
         self.borrower_phone2 = self.get_input_text(200)
         self.pack_input_text(hbox_temp, "借款人2电话", self.borrower_phone2)
+
+        self.marg = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "借款人1婚姻状况", self.marg)
 
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox5
@@ -114,15 +155,29 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "贷款金额大写", self.loan_number_big)
 
         self.house_price = self.get_input_text(100)
+        self.house_price.Bind(wx.EVT_TEXT, self.cal_house_uint_price)
         self.pack_input_text(hbox_temp, "房屋售价", self.house_price)
+
+        hbox52 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox_temp = hbox52
+        self.house_location = self.get_input_text(300)
+        self.pack_input_text(hbox_temp, "购房地址", self.house_location)
+
+        self.house_no = self.get_input_text(150)
+        self.pack_input_text(hbox_temp, "房屋座别", self.house_no)
+
+        self.house_area = self.get_input_text(100)
+        self.house_area.Bind(wx.EVT_TEXT, self.cal_house_uint_price)
+        self.pack_input_text(hbox_temp, "建筑面积", self.house_area)
+
+        self.house_uint_price = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "房屋单价", self.house_uint_price)
 
         hbox6 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox6
-        self.house_location = self.get_input_text(100)
-        self.pack_input_text(hbox_temp, "购房地址", self.house_location)
 
-        self.house_area = self.get_input_text(100)
-        self.pack_input_text(hbox_temp, "建筑面积", self.house_area)
+        self.paid_house_money = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "已付购房款", self.paid_house_money)
 
         self.loan_duration_month = self.get_input_text(100)
         self.loan_duration_month.Bind(wx.EVT_TEXT, self.cal_end_date)
@@ -191,17 +246,19 @@ class MyFrame(wx.Frame):
         self.repayment_num_big = self.get_input_text(300)
         self.pack_input_text(hbox_temp, "还款金额大写", self.repayment_num_big)
 
-
-
         panel_box.Add(hbox1)
         panel_box.Add(hbox2)
         panel_box.Add(hbox3)
         panel_box.Add(hbox4)
         panel_box.Add(hbox5)
+        panel_box.Add(hbox52)
         panel_box.Add(hbox6)
         panel_box.Add(hbox7)
         panel_box.Add(hbox8)
         panel_box.Add(hbox9)
+        panel_box.Add(hbox22)
+        panel_box.Add(hbox23)
+
         self.panel.SetSizer(panel_box)
 
         rootBox.Add(self.panel, 1, wx.EXPAND | wx.ALL, 20)
@@ -219,9 +276,12 @@ class MyFrame(wx.Frame):
         self.btn_save_data = self.get_button("保存", self.save_user_data)
         self.btn_resume_last_data = self.get_button("恢复", self.resume_last_data)
 
-        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 20)
-        bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
+        # self.btn_test = self.get_button("测试", self.test_button_event)
+        # bottom_box.Add(self.btn_test, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
+
+        bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 0)
         bottom_box.Add(self.btn_resume_last_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
+        bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
 
         bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
         bottom_box.Add(self.label_set_save_path, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
@@ -243,6 +303,11 @@ class MyFrame(wx.Frame):
         # icon.CopyFromBitmap(wx.Bitmap("my.ico", wx.BITMAP_TYPE_ANY))
         # self.SetIcon(icon)
         # self.SetBackgroundColour((0, 0, 0))
+        pass
+
+    def test_button_event(self, e):
+        context = {}
+        self.cal_some_data(context)
         pass
 
     def refresh_timer(self, e):
@@ -314,6 +379,7 @@ class MyFrame(wx.Frame):
         pass
 
     def cal_actual_rate(self, e):
+        print("cal_actual_rate")
         try:
             statand = float(self.read_input_text(self.standard_rate).replace("%", ""))
             dir = self.read_choice_text(self.float_direction)
@@ -387,6 +453,13 @@ class MyFrame(wx.Frame):
         #     wx.MessageBox("身份证输入有误，请检查", "提示", wx.OK | wx.ICON_INFORMATION)
         return True
 
+    def get_templete_doc_files(self):
+        curdir = os.getcwd()
+        files = os.listdir(curdir)
+        target = [item for item in files if str(item).find('模板') >= 0 and str(item).find('~$') == -1]
+        print(target)
+        return target
+
     def generate_template(self, e):
         progress = wx.ProgressDialog("正在生成", "请稍等", maximum=100, parent=self,
                                      style=wx.PD_SMOOTH | wx.PD_AUTO_HIDE)
@@ -418,14 +491,26 @@ class MyFrame(wx.Frame):
             read_command = 'self.read_choice_text(self.' + choice_arr[index] + ')'
             context.update({choice_arr[index]: eval(read_command)})
 
+        #给一些字段 添加别名
+        context.update({'nm1': context['borrower_name1']})
+
+        #自动计算相关数据
+        # self.cal_some_data(context)
+
         print(context)
 
         # 文件数量
-        file_num = 1
-        file_name = "担保借款合同模板.docx"
+        # file_num = 1
+        # file_name = "担保借款合同模板.docx"
         self.file_generate_error = False
 
-        self.generate_doc(file_name, borrower_name1, context, progress, file_num)
+        files = self.get_templete_doc_files()
+        file_num = len(files)
+
+        for one_file in files:
+            self.generate_doc(str(one_file), borrower_name1, context, progress, file_num)
+
+        # self.generate_doc(file_name, borrower_name1, context, progress, file_num)
 
         progress.Update(100)
         progress.Destroy()
@@ -436,9 +521,8 @@ class MyFrame(wx.Frame):
     def generate_doc(self, file_name, prefix_name, context, progress, file_num):
         progress_value = 80 / file_num
         origin_value = progress.GetValue()
-        print(origin_value)
         new_file_name = prefix_name + "_" + file_name
-        new_file_name.replace('模板', '')
+        new_file_name = new_file_name.replace('模板', '')
 
         try:
             doc = DocxTemplate(file_name)
@@ -447,20 +531,102 @@ class MyFrame(wx.Frame):
             progress.Update(origin_value + progress_value * 0.6)
             doc.save(new_file_name)
         except BaseException:
-            print("file save error ")
+            print("file save error in doc")
             self.file_generate_error = True
             wx.MessageBox("请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
 
-        print(origin_value + progress_value * 0.8)
         progress.Update(origin_value + progress_value * 0.8)
         self.reset_file_save_path(new_file_name)
         progress.Update(origin_value + progress_value * 1)
 
     def read_input_text(self, input):
         return input.GetLineText(0)
+    def set_input_text(self, input, text):
+        input.SetLabelText(str(text))
 
     def read_choice_text(self, ch):
         return ch.GetString(ch.GetSelection())
+
+    def cal_home_income(self, context):
+        # home_income = month_income1 + month_income2
+        try:
+            month_income1 = float(self.read_input_text(self.month_income1))
+            month_income2 = float(self.read_input_text(self.month_income2))
+        except BaseException:
+            return
+
+        home_income = month_income1 + month_income2
+        home_income = int(home_income)
+        # context.update({"home_income": str(home_income)})
+        self.set_input_text(self.home_income, home_income)
+
+
+    def cal_house_uint_price(self, context):
+        # house_uint_price = house_price / house_area
+        try:
+            self.cal_paid_house_money(context)
+        except BaseException:
+            pass
+
+        try:
+            house_price = float(self.read_input_text(self.house_price))
+            house_area = float(self.read_input_text(self.house_area))
+        except BaseException:
+            return
+
+        house_uint_price = house_price / house_area
+        house_uint_price = round(house_uint_price, 2)
+        # context.update({"house_uint_price": str(house_uint_price)})
+        self.set_input_text(self.house_uint_price, house_uint_price)
+
+    def cal_paid_house_money(self, context):
+        # paid_house_money = house_price * (1 - loan_proportion)
+        try:
+            house_price = float(self.read_input_text(self.house_price))
+            loan_proportion = float(self.read_input_text(self.loan_proportion))
+        except BaseException:
+            return
+        paid_house_money = house_price * (1 - loan_proportion / 10)
+        paid_house_money = round(paid_house_money, 2)
+        # context.update({"paid_house_money": str(paid_house_money)})
+        self.set_input_text(self.paid_house_money, paid_house_money)
+
+    def cal_some_data(self, context):
+        # home_income = month_income1 + month_income2
+        # house_uint_price = house_price / house_area
+        # paid_house_money = house_price * (1 - loan_proportion)
+        try:
+            month_income1 = float(self.read_input_text(self.month_income1))
+            month_income2 = float(self.read_input_text(self.month_income2))
+
+            house_price = float(self.read_input_text(self.house_price))
+            house_area = float(self.read_input_text(self.house_area))
+            loan_proportion = float(self.read_input_text(self.loan_proportion))
+        except BaseException:
+            return
+
+        home_income = month_income1 + month_income2
+        home_income = int(home_income)
+
+        house_uint_price = house_price / house_area
+        house_uint_price = round(house_uint_price, 2)
+
+        paid_house_money = house_price * (1 - loan_proportion / 10)
+        paid_house_money = round(paid_house_money, 0)
+
+        # context.update({"home_income": str(home_income)})
+        # context.update({"house_uint_price": str(house_uint_price)})
+        # context.update({"paid_house_money": str(paid_house_money)})
+
+        self.home_income.SetLabelText(home_income)
+        self.house_uint_price.SetLabelText(house_uint_price)
+        self.paid_house_money.SetLabelText(paid_house_money)
+
+        print("home_income:", home_income)
+        print("house_uint_price:", house_uint_price)
+        print("paid_house_money:", paid_house_money)
+
+        pass
 
     def save_setting(self):
         setting = {}
@@ -506,7 +672,7 @@ class MyFrame(wx.Frame):
 
         with open('setting.ini', 'w', encoding='utf-8') as f:
             json.dump(setting, f)
-
+        print("save all data")
         pass
 
     def resume_last_data(self, e):

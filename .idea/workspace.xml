@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/WordGenerate.py" line="695" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="295b055d-8457-48fc-8370-20c2e29db3a0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordGenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/id_name.txt" beforeDir="false" afterPath="$PROJECT_DIR$/id_name.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setting.ini" beforeDir="false" afterPath="$PROJECT_DIR$/setting.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/~$借款合同模板.docx" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="537" column="33" lean-forward="true" selection-start-line="537" selection-start-column="33" selection-end-line="537" selection-end-column="33" />
+            <state relative-caret-position="-1462">
+              <caret line="283" column="109" selection-start-line="283" selection-start-column="109" selection-end-line="283" selection-end-column="109" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -42,6 +48,8 @@
       <find>cal_actual_rate</find>
       <find>办公</find>
       <find>app_titl</find>
+      <find>float_dir</find>
+      <find>模板</find>
     </findStrings>
     <replaceStrings>
       <replace>self.panel</replace>
@@ -73,6 +81,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -93,7 +102,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -250,14 +258,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34087694" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.36209336" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -276,13 +283,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>530</line>
+          <line>696</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>531</line>
+          <line>697</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/WordGenerate.py</url>
+          <line>391</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -349,10 +361,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/1731158202/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="3178" column="8" selection-start-line="3178" selection-start-column="8" selection-end-line="3178" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="537" column="33" lean-forward="true" selection-start-line="537" selection-start-column="33" selection-end-line="537" selection-end-column="33" />
+        <state relative-caret-position="-1462">
+          <caret line="283" column="109" selection-start-line="283" selection-start-column="109" selection-end-line="283" selection-end-column="109" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>
