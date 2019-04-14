@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="295b055d-8457-48fc-8370-20c2e29db3a0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordGenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WordGenerate.spec" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/EXE-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/xref-WordGenerate.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/xref-WordGenerate.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/WordGenerate.exe" beforeDir="false" afterPath="$PROJECT_DIR$/dist/WordGenerate.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/get_ext.bat" beforeDir="false" afterPath="$PROJECT_DIR$/get_ext.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/id_name.txt" beforeDir="false" afterPath="$PROJECT_DIR$/id_name.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my.ico" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/setting.ini" beforeDir="false" afterPath="$PROJECT_DIR$/setting.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/担保借款合同模板.docx" beforeDir="false" afterPath="$PROJECT_DIR$/担保借款合同模板.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="208" column="58" selection-start-line="208" selection-start-column="58" selection-end-line="208" selection-end-column="58" />
+            <state relative-caret-position="280">
+              <caret line="537" column="33" lean-forward="true" selection-start-line="537" selection-start-column="33" selection-end-line="537" selection-end-column="33" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -273,13 +257,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.46958983" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34087694" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32956153" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32956153" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -292,17 +276,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>518</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>522</line>
+          <line>530</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/WordGenerate.py</url>
-          <line>523</line>
+          <line>531</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -372,8 +351,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="208" column="58" selection-start-line="208" selection-start-column="58" selection-end-line="208" selection-end-column="58" />
+        <state relative-caret-position="280">
+          <caret line="537" column="33" lean-forward="true" selection-start-line="537" selection-start-column="33" selection-end-line="537" selection-end-column="33" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>

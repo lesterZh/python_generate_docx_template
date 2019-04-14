@@ -484,13 +484,20 @@ class MyFrame(wx.Frame):
 
     def save_user_data(self, e):
         input_arr = self.input_data_arr
+        choice_arr = self.choice_data_arr
         context = {
             # 'borrower_name1': borrower_name1
         }
+
         # eval(): 将字符串转成成表达式计算，并返回结果
         for index in range(len(input_arr)):
             read_command = 'self.read_input_text(self.' + input_arr[index] + ')'
             context.update({input_arr[index]: eval(read_command)})
+
+        # eval(): 将字符串转成成表达式计算，并返回结果
+        for index in range(len(choice_arr)):
+            read_command = 'self.read_choice_text(self.' + choice_arr[index] + ')'
+            context.update({choice_arr[index]: eval(read_command)})
 
         setting = {}
         save_path = self.label_set_save_path.GetLabel()
@@ -516,14 +523,19 @@ class MyFrame(wx.Frame):
             if context == None :
                 return
 
-            # print(context)
             input_arr = self.input_data_arr
+            choice_arr = self.choice_data_arr
+
             # eval(): 将字符串转成成表达式计算，并返回结果
             for index in range(len(input_arr)):
                 value = eval("context['" + input_arr[index] + "']")
                 set_command = 'self.' + input_arr[index] + '.SetLabelText("' + value + '")'
-                context.update({input_arr[index]: eval(set_command)})
+                eval(set_command)
 
+            for index in range(len(choice_arr)):
+                value = eval("context['" + choice_arr[index] + "']")
+                set_command = 'self.' + choice_arr[index] + '.SetStringSelection("' + value + '")'
+                eval(set_command)
         pass
 
 def main():
