@@ -36,7 +36,7 @@ class MyFrame(wx.Frame):
                  'month_income1', 'month_income2', 'sup_people',
                  'company1', 'company2', 'company_phone1', 'company_phone2',
                  'home_income', 'house_uint_price', 'paid_house_money',
-                 'house_no'
+                 'house_no', 'birthday'
                  ]
 
     def __init__(self, parent, title):
@@ -246,6 +246,10 @@ class MyFrame(wx.Frame):
         self.repayment_num_big = self.get_input_text(300)
         self.pack_input_text(hbox_temp, "还款金额大写", self.repayment_num_big)
 
+        self.birthday = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "借款人1出生日期", self.birthday)
+        self.set_input_text(self.birthday, '年 月 日')
+
         panel_box.Add(hbox1)
         panel_box.Add(hbox2)
         panel_box.Add(hbox3)
@@ -276,6 +280,7 @@ class MyFrame(wx.Frame):
         self.btn_save_data = self.get_button("保存", self.save_user_data)
         self.btn_resume_last_data = self.get_button("恢复", self.resume_last_data)
         self.btn_resume_selected_data = self.get_button("选择恢复", self.resume_selected_user_data)
+        self.btn_clear_data = self.get_button("一键清空", self.clear_input_data)
         self.btn_full_screen = self.get_button("全屏切换", self.show_full_screen)
 
         # self.btn_test = self.get_button("测试", self.test_button_event)
@@ -284,6 +289,7 @@ class MyFrame(wx.Frame):
         bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 0)
         bottom_box.Add(self.btn_resume_last_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
         bottom_box.Add(self.btn_resume_selected_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
+        bottom_box.Add(self.btn_clear_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
         bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
         bottom_box.Add(self.btn_full_screen, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
 
@@ -679,6 +685,16 @@ class MyFrame(wx.Frame):
             save_path = setting['save_path']
             self.label_set_save_path.SetLabelText(save_path)
             print('set save path:', save_path)
+
+    def clear_input_data(self, e):
+        input_arr = self.input_data_arr
+        # eval(): 将字符串转成成表达式计算，并返回结果
+        for index in range(len(input_arr)):
+            read_command = 'self.set_input_text(self.' + input_arr[index] + ', "")'
+            # self.set_input_text(self.borrower_name1, '')
+            eval(read_command)
+
+        pass
 
     def save_user_data(self, e):
         input_arr = self.input_data_arr
