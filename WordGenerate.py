@@ -275,6 +275,7 @@ class MyFrame(wx.Frame):
 
         self.btn_save_data = self.get_button("保存", self.save_user_data)
         self.btn_resume_last_data = self.get_button("恢复", self.resume_last_data)
+        self.btn_resume_selected_data = self.get_button("选择恢复", self.resume_selected_user_data)
         self.btn_full_screen = self.get_button("全屏切换", self.show_full_screen)
 
         # self.btn_test = self.get_button("测试", self.test_button_event)
@@ -282,6 +283,7 @@ class MyFrame(wx.Frame):
 
         bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 0)
         bottom_box.Add(self.btn_resume_last_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
+        bottom_box.Add(self.btn_resume_selected_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
         bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
         bottom_box.Add(self.btn_full_screen, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
 
@@ -306,6 +308,7 @@ class MyFrame(wx.Frame):
         # self.SetIcon(icon)
         # self.SetBackgroundColour((0, 0, 0))
         pass
+
     def show_full_screen(self, e):
         isFull = self.IsFullScreen()
         if isFull:
@@ -315,13 +318,7 @@ class MyFrame(wx.Frame):
         pass
 
     def test_button_event(self, e):
-        dlg = wx.MessageDialog(None, "msg", caption="Message box",
-                         style=wx.OK | wx.CANCEL | wx.ICON_INFORMATION, pos=wx.DefaultPosition)
-        ret = dlg.ShowModal()
-        if ret == wx.ID_OK:
-            print("ok")
-        else:
-            print("cancle")
+        self.resume_selected_user_data(e)
         pass
 
     def refresh_timer(self, e):
@@ -708,6 +705,64 @@ class MyFrame(wx.Frame):
         with open('setting.ini', 'w', encoding='utf-8') as f:
             json.dump(setting, f)
         print("save all data")
+
+        self.save_single_user_data_to_foler(context)
+        pass
+
+    def save_single_user_data_to_foler(self, data):
+        data_save = {}
+        data_save.update({"user_date": data})
+
+        path = os.getcwd()
+        data_folder = os.path.join(path, 'data')
+        if not os.path.exists(data_folder):
+            os.mkdir(data_folder)
+
+        borrower_name = self.read_input_text(self.borrower_name1) + '.ini'
+        file_name = os.path.join(data_folder, borrower_name)
+        with open(file_name, 'w', encoding='utf-8') as f:
+            json.dump(data_save, f)
+
+    def resume_selected_user_data(self, e):
+        filesFilter = "Data (*.ini)|*.ini"
+
+        path = os.getcwd()
+        data_folder = os.path.join(path, 'data')
+        if not os.path.exists(data_folder):
+            os.mkdir(data_folder)
+
+        dir = os.path.join(os.getcwd(), 'data')
+        fileDialog = wx.FileDialog(self, message="选择单个文件",defaultDir=dir, wildcard=filesFilter, style=wx.FD_OPEN)
+
+        dialogResult = fileDialog.ShowModal()
+        if dialogResult != wx.ID_OK:
+            return
+
+        path = fileDialog.GetPath()
+        print('select resume file is:', path)
+
+        with open(path, encoding='utf-8') as f:
+            setting = json.load(f)
+            if setting == None:
+                return
+
+            context = setting['user_date']
+            if context == None :
+                return
+
+            input_arr = self.input_data_arr
+            choice_arr = self.choice_data_arr
+
+            # eval(): 将字符串转成成表达式计算，并返回结果
+            for index in range(len(input_arr)):
+                value = eval("context['" + input_arr[index] + "']")
+                set_command = 'self.' + input_arr[index] + '.SetLabelText("' + value + '")'
+                eval(set_command)
+
+            for index in range(len(choice_arr)):
+                value = eval("context['" + choice_arr[index] + "']")
+                set_command = 'self.' + choice_arr[index] + '.SetStringSelection("' + value + '")'
+                eval(set_command)
         pass
 
     def resume_last_data(self, e):
