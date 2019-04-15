@@ -24,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="41">
-              <caret line="277" column="61" selection-start-line="277" selection-start-column="61" selection-end-line="277" selection-end-column="61" />
+            <state relative-caret-position="276">
+              <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -233,8 +233,8 @@
     </configuration>
     <list>
       <item itemvalue="Python.Unnamed" />
-      <item itemvalue="Python.WordTemp" />
       <item itemvalue="Python.WordGenerate" />
+      <item itemvalue="Python.WordTemp" />
       <item itemvalue="Python.demo" />
       <item itemvalue="Python.rmb_upper" />
     </list>
@@ -318,8 +318,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="277" column="61" selection-start-line="277" selection-start-column="61" selection-end-line="277" selection-end-column="61" />
+        <state relative-caret-position="276">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>

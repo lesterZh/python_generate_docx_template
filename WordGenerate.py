@@ -10,7 +10,7 @@ import os
 import time
 import json
 
-app_title = '合同神器'
+app_title = '合同生成器器'
 
 class MyFrame(wx.Frame):
     file_generate_error = False
