@@ -263,7 +263,7 @@ class MyFrame(wx.Frame):
 
         rootBox.Add(self.panel, 1, wx.EXPAND | wx.ALL, 20)
 
-        self.btn_generate_template = self.get_button("生成合同", self.generate_template)
+        self.btn_generate_template = self.get_button("生成合同", self.pre_generate_template)
         self.btn_set_save_path = self.get_button("文件路径", self.set_save_path)
         self.label_set_save_path = wx.StaticText(self, -1, label="当前路径")
         self.label_set_save_path.SetFont(self.input_font)
@@ -275,6 +275,7 @@ class MyFrame(wx.Frame):
 
         self.btn_save_data = self.get_button("保存", self.save_user_data)
         self.btn_resume_last_data = self.get_button("恢复", self.resume_last_data)
+        self.btn_full_screen = self.get_button("全屏切换", self.show_full_screen)
 
         # self.btn_test = self.get_button("测试", self.test_button_event)
         # bottom_box.Add(self.btn_test, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
@@ -282,8 +283,9 @@ class MyFrame(wx.Frame):
         bottom_box.Add(self.btn_save_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 0)
         bottom_box.Add(self.btn_resume_last_data, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
         bottom_box.Add(self.btn_generate_template, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
+        bottom_box.Add(self.btn_full_screen, 0, wx.ALIGN_CENTER | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
 
-        bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 60)
+        bottom_box.Add(self.btn_set_save_path, 0, wx.ALIGN_LEFT | wx.LEFT | wx.ALIGN_CENTER_VERTICAL, 10)
         bottom_box.Add(self.label_set_save_path, 0, wx.ALIGN_LEFT | wx.ALL | wx.ALIGN_CENTER_VERTICAL, 5)
 
         rootBox.Add(bottom_box, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 40)
@@ -304,10 +306,22 @@ class MyFrame(wx.Frame):
         # self.SetIcon(icon)
         # self.SetBackgroundColour((0, 0, 0))
         pass
+    def show_full_screen(self, e):
+        isFull = self.IsFullScreen()
+        if isFull:
+            self.ShowFullScreen(False, wx.FULLSCREEN_NOMENUBAR)
+        else:
+            self.ShowFullScreen(True, wx.FULLSCREEN_NOMENUBAR)
+        pass
 
     def test_button_event(self, e):
-        context = {}
-        self.cal_some_data(context)
+        dlg = wx.MessageDialog(None, "msg", caption="Message box",
+                         style=wx.OK | wx.CANCEL | wx.ICON_INFORMATION, pos=wx.DefaultPosition)
+        ret = dlg.ShowModal()
+        if ret == wx.ID_OK:
+            print("ok")
+        else:
+            print("cancle")
         pass
 
     def refresh_timer(self, e):
@@ -466,8 +480,20 @@ class MyFrame(wx.Frame):
         print(target)
         return target
 
+    def pre_generate_template(self, e):
+
+        self.borrower_name = self.read_input_text(self.borrower_name1)
+        dlg = wx.MessageDialog(None, "请关闭以 " + self.borrower_name + " 开头的生成的合同文档\n开始生成合同", caption="确认生成",
+                               style=wx.OK | wx.CANCEL | wx.ICON_INFORMATION, pos=wx.DefaultPosition)
+        ret = dlg.ShowModal()
+        if ret == wx.ID_OK:
+            self.generate_template(e)
+        else:
+            print("cancle")
+        pass
+
     def generate_template(self, e):
-        progress = wx.ProgressDialog("正在生成", "请稍等", maximum=100, parent=self,
+        progress = wx.ProgressDialog("正在生成合同", "请稍等", maximum=100, parent=self,
                                      style=wx.PD_SMOOTH | wx.PD_AUTO_HIDE)
         # percent = 20
         # progress.Update(percent)
@@ -524,28 +550,29 @@ class MyFrame(wx.Frame):
         progress.Destroy()
 
         if not self.file_generate_error:
-            wx.MessageBox("文件生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox("合同生成成功", "提示", wx.OK | wx.ICON_INFORMATION)
 
     def generate_doc(self, file_name, prefix_name, context, progress, file_num):
         progress_value = 80 / file_num
         origin_value = progress.GetValue()
         new_file_name = prefix_name + "_" + file_name
         new_file_name = new_file_name.replace('模板', '')
-
+        msg = "正在生成：" + new_file_name
         try:
             doc = DocxTemplate(file_name)
-            progress.Update(origin_value + progress_value * 0.2)
+            progress.Update(origin_value + progress_value * 0.2, msg)
             doc.render(context)
-            progress.Update(origin_value + progress_value * 0.6)
+            progress.Update(origin_value + progress_value * 0.6, msg)
             doc.save(new_file_name)
         except BaseException:
             print("file save error in doc")
             self.file_generate_error = True
             wx.MessageBox("文件写如错误，请检查word文件是否关闭，关闭后重试", "提示", wx.OK | wx.ICON_INFORMATION)
 
-        progress.Update(origin_value + progress_value * 0.8)
+        progress.Update(origin_value + progress_value * 0.8, msg)
+        time.sleep(0.5)
         self.reset_file_save_path(new_file_name)
-        progress.Update(origin_value + progress_value * 1)
+        progress.Update(origin_value + progress_value * 1, msg)
 
     def read_input_text(self, input):
         return input.GetLineText(0)
