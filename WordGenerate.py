@@ -10,6 +10,7 @@ import os
 import time
 import json
 from datetime import datetime
+from datetime import timedelta
 import base64
 
 app_title = '合同生成器器'
@@ -326,8 +327,8 @@ class MyFrame(wx.Frame):
         pass
 
     def test_button_event(self, e):
-
-        encode_date = self.encode_str_base64('2019-4-17 15:15:00')
+        self.get_setting_file_name()
+        print(self.get_day_after(3))
         pass
 
     def check_app_valid(self):
@@ -337,14 +338,13 @@ class MyFrame(wx.Frame):
 
         date_str = self.decode_str_base64(setting['vlts'])
         if len(date_str) < 5:
-            date_str = '2019-4-1 18:19:59'
+            date_str = '2010-4-1 18:19:59'
 
         print('read valid date:', date_str)
 
         target_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         target_date_ts = target_date.timestamp()
-        print(target_date, '      ', target_date_ts)
-        print(now, now.timestamp())
+        print('now:'+str(now))
 
         if (now_ts < target_date_ts):
             print('app is valid')
@@ -359,14 +359,14 @@ class MyFrame(wx.Frame):
 
     def encode_str_base64(self, encode_str):
         encode_date = base64.b64encode(encode_str.encode('utf-8'))
-        print(str(encode_date, 'utf-8'))
-        return encode_date
+        ret = str(encode_date, 'utf-8')
+        print('you get date encode:' + ret)
+        return ret
 
     def decode_str_base64(self, decode_str):
         try:
             decode_date = base64.b64decode(decode_str.encode('utf-8'))
             ret = str(decode_date, 'utf-8')
-            print(ret)
             return ret
         except BaseException:
             return ''
@@ -716,26 +716,50 @@ class MyFrame(wx.Frame):
         save_path = self.label_set_save_path.GetLabel()
         setting.update({"save_path": save_path})
 
-        with open('setting.ini', 'w', encoding='utf-8') as f:
+        with open(self.get_setting_file_name(), 'w', encoding='utf-8') as f:
             json.dump(setting, f)
 
     def resume_setting(self):
         setting = self.read_setting_file()
         save_path = setting['save_path']
+
+        if not os.path.exists(save_path):
+            save_path = os.getcwd()
+
         self.label_set_save_path.SetLabelText(save_path)
         print('set save path:', save_path)
 
+    def get_setting_file_name(self):
+        set_path = os.path.join(os.path.expanduser('~'), 'word')
+        if not os.path.exists(set_path):
+            os.mkdir(set_path)
+
+        set_file = os.path.join(set_path, 'setting.ini')
+        return set_file
+
+    def get_day_after(self, d):
+        now = datetime.now()
+        delta = timedelta(days=d)
+        n_days = now + delta
+        return n_days.strftime('%Y-%m-%d %H:%M:%S')
+
     def read_setting_file(self):
-        if not os.path.exists('setting.ini'):
+        if not os.path.exists(self.get_setting_file_name()):
             print('setting.ini is not exist')
             setting = {}
             setting.update({"save_path": os.getcwd()})
             setting.update({"user_date": ''})
+
+            #获取当前日期后3天
             setting.update({"vlts": ''})
-            with open('setting.ini', 'w', encoding='utf-8') as f:
+            self.encode_str_base64(self.get_day_after(2))
+
+            # setting.update({"vlts": self.encode_str_base64(self.get_day_after(2))})
+
+            with open(self.get_setting_file_name(), 'w', encoding='utf-8') as f:
                 json.dump(setting, f)
 
-        with open('setting.ini', encoding='utf-8') as f:
+        with open(self.get_setting_file_name(), encoding='utf-8') as f:
             setting = json.load(f)
             print('load file setting.ini')
             return setting
@@ -772,7 +796,7 @@ class MyFrame(wx.Frame):
         setting.update({"save_path": save_path})
         setting.update({"user_date": context})
 
-        with open('setting.ini', 'w', encoding='utf-8') as f:
+        with open(self.get_setting_file_name(), 'w', encoding='utf-8') as f:
             json.dump(setting, f)
         print("save all data")
 
