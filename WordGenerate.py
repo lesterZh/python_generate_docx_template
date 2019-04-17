@@ -10,6 +10,7 @@ import os
 import time
 import json
 from datetime import datetime
+import base64
 
 app_title = '合同生成器器'
 
@@ -326,12 +327,21 @@ class MyFrame(wx.Frame):
 
     def test_button_event(self, e):
 
+        encode_date = self.encode_str_base64('2019-4-17 15:15:00')
         pass
 
     def check_app_valid(self):
         now = datetime.now()
         now_ts = now.timestamp()
-        target_date = datetime(2019, 4, 18, 0, 0, 0)
+        setting = self.read_setting_file()
+
+        date_str = self.decode_str_base64(setting['vlts'])
+        if len(date_str) < 5:
+            date_str = '2019-4-1 18:19:59'
+
+        print('read valid date:', date_str)
+
+        target_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
         target_date_ts = target_date.timestamp()
         print(target_date, '      ', target_date_ts)
         print(now, now.timestamp())
@@ -346,6 +356,20 @@ class MyFrame(wx.Frame):
         ret = dlg.ShowModal()
         print("app close")
         self.Close()
+
+    def encode_str_base64(self, encode_str):
+        encode_date = base64.b64encode(encode_str.encode('utf-8'))
+        print(str(encode_date, 'utf-8'))
+        return encode_date
+
+    def decode_str_base64(self, decode_str):
+        try:
+            decode_date = base64.b64decode(decode_str.encode('utf-8'))
+            ret = str(decode_date, 'utf-8')
+            print(ret)
+            return ret
+        except BaseException:
+            return ''
 
     def refresh_timer(self, e):
         cur_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
