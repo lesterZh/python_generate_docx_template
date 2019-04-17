@@ -9,6 +9,7 @@ import rmb_upper
 import os
 import time
 import json
+from datetime import datetime
 
 app_title = '合同生成器器'
 
@@ -324,12 +325,32 @@ class MyFrame(wx.Frame):
         pass
 
     def test_button_event(self, e):
-        self.resume_selected_user_data(e)
+
         pass
+
+    def check_app_valid(self):
+        now = datetime.now()
+        now_ts = now.timestamp()
+        target_date = datetime(2019, 4, 18, 0, 0, 0)
+        target_date_ts = target_date.timestamp()
+        print(target_date, '      ', target_date_ts)
+        print(now, now.timestamp())
+
+        if (now_ts < target_date_ts):
+            print('app is valid')
+            return
+
+        print('alert, app is invalid')
+        dlg = wx.MessageDialog(None, "软件异常，请联系开发者", caption="提示",
+                               style=wx.OK | wx.ICON_INFORMATION, pos=wx.DefaultPosition)
+        ret = dlg.ShowModal()
+        print("app close")
+        self.Close()
 
     def refresh_timer(self, e):
         cur_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         self.SetTitle(app_title + '                        ' + cur_time)
+        # self.check_app_valid()
 
     def get_button(self, text, on_button_method):
         button = wx.Button(self, wx.ID_ANY, text)
@@ -667,7 +688,7 @@ class MyFrame(wx.Frame):
         pass
 
     def save_setting(self):
-        setting = {}
+        setting = self.read_setting_file()
         save_path = self.label_set_save_path.GetLabel()
         setting.update({"save_path": save_path})
 
@@ -675,16 +696,25 @@ class MyFrame(wx.Frame):
             json.dump(setting, f)
 
     def resume_setting(self):
+        setting = self.read_setting_file()
+        save_path = setting['save_path']
+        self.label_set_save_path.SetLabelText(save_path)
+        print('set save path:', save_path)
+
+    def read_setting_file(self):
         if not os.path.exists('setting.ini'):
             print('setting.ini is not exist')
-            return
+            setting = {}
+            setting.update({"save_path": os.getcwd()})
+            setting.update({"user_date": ''})
+            setting.update({"vlts": ''})
+            with open('setting.ini', 'w', encoding='utf-8') as f:
+                json.dump(setting, f)
+
         with open('setting.ini', encoding='utf-8') as f:
             setting = json.load(f)
             print('load file setting.ini')
-            print(setting)
-            save_path = setting['save_path']
-            self.label_set_save_path.SetLabelText(save_path)
-            print('set save path:', save_path)
+            return setting
 
     def clear_input_data(self, e):
         input_arr = self.input_data_arr
@@ -713,7 +743,7 @@ class MyFrame(wx.Frame):
             read_command = 'self.read_choice_text(self.' + choice_arr[index] + ')'
             context.update({choice_arr[index]: eval(read_command)})
 
-        setting = {}
+        setting = self.read_setting_file()
         save_path = self.label_set_save_path.GetLabel()
         setting.update({"save_path": save_path})
         setting.update({"user_date": context})
@@ -782,38 +812,36 @@ class MyFrame(wx.Frame):
         pass
 
     def resume_last_data(self, e):
-        if not os.path.exists('setting.ini'):
-            print('setting.ini is not exist')
+        setting = self.read_setting_file()
+        print('load file setting.ini')
+
+        save_path = setting['save_path']
+        self.label_set_save_path.SetLabelText(save_path)
+
+        context = setting['user_date']
+        if context == None :
             return
-        with open('setting.ini', encoding='utf-8') as f:
-            setting = json.load(f)
-            print('load file setting.ini')
-            save_path = setting['save_path']
-            self.label_set_save_path.SetLabelText(save_path)
 
-            context = setting['user_date']
-            if context == None :
-                return
+        input_arr = self.input_data_arr
+        choice_arr = self.choice_data_arr
 
-            input_arr = self.input_data_arr
-            choice_arr = self.choice_data_arr
+        # eval(): 将字符串转成成表达式计算，并返回结果
+        for index in range(len(input_arr)):
+            value = eval("context['" + input_arr[index] + "']")
+            set_command = 'self.' + input_arr[index] + '.SetLabelText("' + value + '")'
+            eval(set_command)
 
-            # eval(): 将字符串转成成表达式计算，并返回结果
-            for index in range(len(input_arr)):
-                value = eval("context['" + input_arr[index] + "']")
-                set_command = 'self.' + input_arr[index] + '.SetLabelText("' + value + '")'
-                eval(set_command)
-
-            for index in range(len(choice_arr)):
-                value = eval("context['" + choice_arr[index] + "']")
-                set_command = 'self.' + choice_arr[index] + '.SetStringSelection("' + value + '")'
-                eval(set_command)
+        for index in range(len(choice_arr)):
+            value = eval("context['" + choice_arr[index] + "']")
+            set_command = 'self.' + choice_arr[index] + '.SetStringSelection("' + value + '")'
+            eval(set_command)
         pass
 
 def main():
     app = wx.App()
     ex = MyFrame(None, title=app_title)
     ex.Show()
+    ex.check_app_valid()
     app.MainLoop()
 
 

@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/WordGenerate.py" line="695" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="295b055d-8457-48fc-8370-20c2e29db3a0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WordGenerate.py" beforeDir="false" afterPath="$PROJECT_DIR$/WordGenerate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/Analysis-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/EXE-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.pkg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PKG-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.pyz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/PYZ-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/base_library.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/warn-WordGenerate.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/WordGenerate/xref-WordGenerate.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/WordGenerate/xref-WordGenerate.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/WordGenerate.exe" beforeDir="false" afterPath="$PROJECT_DIR$/dist/WordGenerate.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/setting.ini" beforeDir="false" afterPath="$PROJECT_DIR$/dist/setting.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/按揭资料模板.docx" beforeDir="false" afterPath="$PROJECT_DIR$/dist/按揭资料模板.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/说明文档.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dist/说明文档.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/预购商品房预告登记约定-蓝光 2模板.docx" beforeDir="false" afterPath="$PROJECT_DIR$/dist/预购商品房预告登记约定-蓝光 2模板.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setting.ini" beforeDir="false" afterPath="$PROJECT_DIR$/setting.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/说明文档.txt" beforeDir="false" afterPath="$PROJECT_DIR$/说明文档.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WordGenerate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1610">
-              <caret line="250" column="51" selection-start-line="250" selection-start-column="51" selection-end-line="250" selection-end-column="51" />
+            <state relative-caret-position="282">
+              <caret line="337" lean-forward="true" selection-start-line="337" selection-end-line="337" />
               <folding>
                 <element signature="e#48#61#0" expanded="true" />
               </folding>
@@ -281,7 +268,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.21070014" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -299,6 +286,25 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21070014" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.41584158" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39886847" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32956153" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32956153" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://C:/WorkCode/python-docx-template/tests/cellbg.py">
@@ -335,8 +341,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WordGenerate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1610">
-          <caret line="250" column="51" selection-start-line="250" selection-start-column="51" selection-end-line="250" selection-end-column="51" />
+        <state relative-caret-position="282">
+          <caret line="337" lean-forward="true" selection-start-line="337" selection-end-line="337" />
           <folding>
             <element signature="e#48#61#0" expanded="true" />
           </folding>
