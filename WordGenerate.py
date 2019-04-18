@@ -735,7 +735,7 @@ class MyFrame(wx.Frame):
             os.mkdir(set_path)
 
         set_file = os.path.join(set_path, 'setting.ini')
-        return set_file
+        return 'setting.ini'
 
     def get_day_after(self, d):
         now = datetime.now()
@@ -761,7 +761,7 @@ class MyFrame(wx.Frame):
 
         with open(self.get_setting_file_name(), encoding='utf-8') as f:
             setting = json.load(f)
-            print('load file setting.ini')
+            print('load file ：', self.get_setting_file_name())
             return setting
 
     def clear_input_data(self, e):
