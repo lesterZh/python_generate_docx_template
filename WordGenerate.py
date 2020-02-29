@@ -97,6 +97,16 @@ class MyFrame(wx.Frame):
         self.household1 = self.get_input_text(200)
         self.pack_input_text(hbox_temp, "户籍", self.household1)
 
+        hbox21 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox_temp = hbox21
+        self.birthday = self.get_input_text(200)
+        self.pack_input_text(hbox_temp, "借款人1出生日期", self.birthday)
+        self.set_input_text(self.birthday, '年 月 日')
+
+        self.marg = self.get_input_text(100)
+        self.pack_input_text(hbox_temp, "借款人1婚姻状况", self.marg)
+
+
         hbox22 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox22
         self.company1 = self.get_input_text(200)
@@ -141,8 +151,6 @@ class MyFrame(wx.Frame):
         self.borrower_phone2 = self.get_input_text(200)
         self.pack_input_text(hbox_temp, "借款人2电话", self.borrower_phone2)
 
-        self.marg = self.get_input_text(100)
-        self.pack_input_text(hbox_temp, "借款人1婚姻状况", self.marg)
 
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox5
@@ -210,8 +218,8 @@ class MyFrame(wx.Frame):
         self.pack_input_text(hbox_temp, "-日", self.end_day)
 
         self.standard_rate = self.get_input_text(100)
-        self.standard_rate.SetLabelText("4.9")
-        self.pack_input_text(hbox_temp, "基准利率", self.standard_rate)
+        self.standard_rate.SetLabelText("4.75")
+        self.pack_input_text(hbox_temp, "LPR利率", self.standard_rate)
 
         float_direction_arr = ["上", "下"]
         self.float_direction = self.get_choice(float_direction_arr)
@@ -220,7 +228,7 @@ class MyFrame(wx.Frame):
 
         self.float_num = self.get_input_text(100)
         self.float_num.Bind(wx.EVT_TEXT, self.cal_actual_rate)
-        self.pack_input_text(hbox_temp, "浮动百分百", self.float_num)
+        self.pack_input_text(hbox_temp, "浮动基点", self.float_num)
 
         hbox8 = wx.BoxSizer(wx.HORIZONTAL)
         hbox_temp = hbox8
@@ -249,12 +257,9 @@ class MyFrame(wx.Frame):
         self.repayment_num_big = self.get_input_text(300)
         self.pack_input_text(hbox_temp, "还款金额大写", self.repayment_num_big)
 
-        self.birthday = self.get_input_text(200)
-        self.pack_input_text(hbox_temp, "借款人1出生日期", self.birthday)
-        self.set_input_text(self.birthday, '年 月 日')
-
         panel_box.Add(hbox1)
         panel_box.Add(hbox2)
+        panel_box.Add(hbox21)
         panel_box.Add(hbox3)
         panel_box.Add(hbox4)
         panel_box.Add(hbox5)
@@ -452,9 +457,11 @@ class MyFrame(wx.Frame):
 
         actual_rate = 0.0
         if dir == '上':
-            actual_rate = statand * (1 + float_num/100)
+            # actual_rate = statand * (1 + float_num/100)
+            actual_rate = statand  + float_num/100
         else:
-            actual_rate = statand * (1 - float_num / 100)
+            # actual_rate = statand * (1 - float_num / 100)
+            actual_rate = statand  - float_num / 100
         self.actual_rate.SetLabelText(str(round(actual_rate, 3)))
 
     def cal_end_date(self, e):
